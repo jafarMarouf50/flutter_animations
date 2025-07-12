@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation/counter_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -14,16 +15,23 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
+
         title: Text(
           'Animated Foo Widgets',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.blue,
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [_animatedContainer(), _resizeContainerButton()],
+          children: [
+            Spacer(),
+            _animatedContainer(),
+            Spacer(),
+            _resizeContainerButton(),
+            _navigateToCounterView(),
+            Spacer(),
+          ],
         ),
       ),
     );
@@ -53,6 +61,19 @@ class _HomeViewState extends State<HomeView> {
         setState(() {});
       },
       child: Text("Rotate Container", style: TextStyle(color: Colors.white)),
+    );
+  }
+
+  Widget _navigateToCounterView() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CounterView()),
+        );
+      },
+      child: Text("Move to Counter", style: TextStyle(color: Colors.white)),
     );
   }
 }

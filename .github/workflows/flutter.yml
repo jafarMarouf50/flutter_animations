@@ -18,36 +18,25 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v3.14.1
+        uses: action/setup-java@v4
         with:
-          distribution: 'oracle'
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.0'
-          channel: stable
-      - run: flutter --version
+          flutter-version: '3.24.0'
+          channel: 'stable'
 
       - name: Install Dependencies
         run: flutter pub get
+
       - name: Build APK
         run: flutter build apk --release
 
-      - name: Build appBundle
-        run: flutter build appbundle
-
-      - name: Upload Artifacts
+      - name: Upload APK
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: Releases
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
-
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab"
-          tag: v${{ env.VERSION }}
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
