@@ -9,7 +9,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  double _turns = 0.0;
+  double _scale = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,10 @@ class _HomeViewState extends State<HomeView> {
             Spacer(),
             _animatedContainer(),
             Spacer(),
-            _resizeContainerButton(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [_scaleUpButton(),SizedBox(width: 50,),_scaleDownButton()],
+            ),
             _navigateToCounterView(),
             Spacer(),
           ],
@@ -38,10 +41,10 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _animatedContainer() {
-    return AnimatedRotation(
+    return AnimatedScale(
+      scale: _scale,
       duration: Duration(seconds: 2),
       curve: Curves.easeIn,
-      turns: _turns,
       child: Container(
         width: 100,
         height: 100,
@@ -53,14 +56,25 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _resizeContainerButton() {
+  Widget _scaleUpButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
       onPressed: () {
-        _turns += 1.25;
+        _scale = 1.5;
         setState(() {});
       },
-      child: Text("Rotate Container", style: TextStyle(color: Colors.white)),
+      child: Text("Scale Up", style: TextStyle(color: Colors.white)),
+    );
+  }
+
+  Widget _scaleDownButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+      onPressed: () {
+        _scale = 0.5;
+        setState(() {});
+      },
+      child: Text("Scale Down", style: TextStyle(color: Colors.white)),
     );
   }
 
